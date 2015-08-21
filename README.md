@@ -6,10 +6,10 @@ A test suite for creating an accession. Includes rudimentary tools to assign UUI
 
 Ingest flow is anticipated to be as follows:
 
-1. A suite of data, or dataset, is acquired consisting of files arranged in some provider defined directory structure. Files may be of any type. Metadata in XML or JSON files may or may not be present.  `(Remember: collections do not have their own files!)`
+1. A suite of data, or dataset, is acquired consisting of files arranged in some provider defined directory structure. Files may be of any type. Metadata in XML or JSON files may or may not be present.  _(Remember: collections do not have their own files!)_
 1. In ISO-14721 terminology, this suite is termed a Submission Information Package (SIP) and is assigned an accession number.    
     1. The accession number should be of the form YYYYMMDDAAAAAA, with the first six digits indicating the
-date the dataset was ingested into the system, and the second six, a unique number. `(Using solely date based information can cause collisions.)` Example: 20150821000007. `(you might think of dividing the latter 6 digits into a couple of fields that provide further information, for example, operator number, and an ordinal that the operator assigns)`
+date the dataset was ingested into the system, and the second six, a unique number. _(Using solely date based information can cause collisions.)_ Example: 20150821000007. _(you might think of dividing the latter 6 digits into a couple of fields that provide further information, for example, operator number, and an ordinal that the operator assigns)_
 1. The accession is assigned a UUID. 
 1. The UUID and accession-level metadata are stored in an accession information table  (are you really going to use an ASCII TSV for metadata?)   
     1. initially in a TSV ASCII table    
