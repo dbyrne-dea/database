@@ -1,38 +1,28 @@
 # database
 
-A test suite for loading data into a simple database.
-Includes rudimentary tools to assign UUIDs and add files to a database
-(from a set of web-accessible folders (WAFs))  and create a catalog of
-SHA checksums and UUIDs. This initial pass at the problem is intended to 
-create an emergency database that can be improved upon or completely
-changed as more sophisticated tools are developed or obtained.
+A test suite for creating an accession. Includes rudimentary tools to assign UUIDs, calculate SHA checksums and add files to a database (from a set of web-accessible folders (WAFs)). This initial pass at the problem is intended to create an emergency database that can easily be incorporated into a more mature product as on becomes available.
 
 ## Workflow 
 
 Ingest flow is anticipated to be as follows:
 
-1. A data collection is acquired consisting of files arranged in some provider 
-defined directory
-structure. Files may be of any type. Metadata in XML or JSON files may or
-may not be present.  
-1. The collection is assigned a collection number.    
-    1. The collection number should be of the form YYYYMMDDHHMMSS, indicating the
-date and time the dataset was acquired.
-1. The collection is assigned a UUID. 
-1. The UUID and collection metadata are stored in a collection table     
-    1. initially in a TSV ascii table    
+1. A suite of data, or dataset, is acquired consisting of files arranged in some provider defined directory structure. Files may be of any type. Metadata in XML or JSON files may or may not be present.  `(Remember: collections do not have their own files!)`
+1. In ISO-14721 terminology, this suite is termed a Submission Information Package (SIP) and is assigned an accession number.    
+    1. The accession number should be of the form YYYYMMDDAAAAAA, with the first six digits indicating the
+date the dataset was ingested into the system, and the second six, a unique number. `(Using solely date based information can cause collisions.)` Example: 20150821000007. `(you might think of dividing the latter 6 digits into a couple of fields that provide further information, for example, operator number, and an ordinal that the operator assigns)`
+1. The accession is assigned a UUID. 
+1. The UUID and accession-level metadata are stored in an accession information table  (are you really going to use an ASCII TSV for metadata?)   
+    1. initially in a TSV ASCII table    
     2. later converted to SQL table database. 
 1. The directory structure is read. 
 1. For each file in the collection,  the `SHASUM -a384`  is calculated and 
-the file copied to a second database structure, `${DATABASE}/` such that the
-path name of each file can be reduced to the SHASUM, e.g., a file with shasum
-of 
+the file copied to a second database structure, `${DATABASE}/` which is organized according to the SHA digest. E.g., a file with shasum of 
 `38b060a751ac96384cd9327eb1b1e36a21fdb71114be07434c0cc7bf63f6e1da274edebfe76f65fbd51ad2f14898b95b`
-will be stored as   
+might be stored as   
 `${DATABASE}/38/b0/60/a751ac96384cd9327eb1b1e36a21fdb71114be07434c0cc7bf63f6e1da274edebfe76f65fbd51ad2f14898b95b`. 
 1. A UUID is assigned to each file in the second database and added
 to another files table in the MySQL database. 
-    1. The files table has the collection ID, the shasum, the file UUID, the original filename and path, and the name of an XML file that holds the metadata for that file. 
+    1. The files table has the collection ID, the SHAsum, the file UUID, the original filename and path, and the name of an XML file that holds the metadata for that file. 
 
 ```
 DATA/
